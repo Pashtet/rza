@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Оглавление</title>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/index.js"></script>
+	</head>
+	
+	<body>
+		<p><a href="rza/kart.html">Отображение карточки по запросу</a></p>
+		<div class="wrapper">
+			<section class="content-wrapper">
+				<div class="container">
+					<aside class="sidebar">
+						<div class="search_item">
+							<label for="PS">Подстанция</label>
+							<input name="PS" id="PS" list="PSList">
+							<datalist id="PSList"></datalist>
+						</div>
+						<div class="search_item">
+							<label for="MF">Производитель</label>
+							<input name="MF" id="MF" list="MFList">
+							<datalist id="MFList"></datalist>
+						</div>
+						<div id = "searchButton" class="search_button">
+							<input  class="go_to_card" type="button" onclick="goToCard()" id="goToCard" name="goToCard"  value="Поиск" />
+							<input  class="button_clear" type="button" onclick="clearFields()" value="Очистить"/>
+						</div>
+					</aside>                  
+				</div>
+			</section>
+		</div>
+	</body>
+</html>

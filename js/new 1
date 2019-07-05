@@ -1,0 +1,3 @@
+Разница между объектом события и оберткой jquery
+//		console.log(t.getAttribute("id"));
+//		console.log($(this).attr("id"));
