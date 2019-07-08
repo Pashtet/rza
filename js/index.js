@@ -1,8 +1,8 @@
-var isPS = isMF = isUnit = isDevice = false;
+var isPS = isunit = isUnit = isDevice = false;
 var listFiles = "";
 var search = "",
 	PS = "",
-	MF = "";
+	unit = "";
 
 window.onload = function () {
 ///////запрос на список подстанций
@@ -28,9 +28,9 @@ window.onload = function () {
                 console.log("Разбор ПС");
 				console.log(this.value);
 				PS = this.value;
-                document.getElementById("MF").value = "";
+                document.getElementById("unit").value = "";
 				$.ajax({//отправляем запрос на обновление таблицы
-					url: '../SelectMF.php',
+					url: '../SelectUnit.php',
 					type: 'POST',
 					data: {"PS":this.value},
 					dataType: 'json',
@@ -43,7 +43,7 @@ window.onload = function () {
 					for (i = 0; i < data.length; i++) {
                         code += "<option>" + data[i] + "</option>";
                     }
-                    $("#MFList").html(code);
+                    $("#unitList").html(code);
 				})
 				.fail( function( data ) {
 					console.log('fail');
@@ -52,8 +52,8 @@ window.onload = function () {
 
             }
             
-            else if (this.id=="MF"){
-				MF = this.value;
+            else if (this.id=="unit"){
+				unit = this.value;
                 goToCard();
             }
 
@@ -81,26 +81,26 @@ function clearFields(){
     
     console.log("ClearFields")
     document.getElementById("PS").value = "";
-    document.getElementById("MF").value = "";
-    document.getElementById("MFList").innerHTML = " ";
+    document.getElementById("unit").value = "";
+    document.getElementById("unitList").innerHTML = " ";
     
 }
 function goToCard(){
 	
 	localStorage.setItem('PS', PS);
-	localStorage.setItem('MF', MF);
+	localStorage.setItem('unit', unit);
 	window.open('rza/card.html');
 }
 
 /* function sendSearchRequest() {
 
     var searchTextForPS = document.getElementById("PS"),//$("#PS"),
-    searchTextForMF = document.getElementById("MF"),
+    searchTextForunit = document.getElementById("unit"),
     searchDate = document.getElementById("searchDate");//$("#searchDate");
     listFiles="";
 
     if (searchTextForPS.value.length > 0) {
-        $.post("GetSearchResponse", {'searchTextForPS': searchTextForPS.value, 'searchTextForMF':searchTextForMF.value, 'searchDate': searchDate.value}, function (data) {
+        $.post("GetSearchResponse", {'searchTextForPS': searchTextForPS.value, 'searchTextForunit':searchTextForunit.value, 'searchDate': searchDate.value}, function (data) {
             data = JSON.parse(data);
             console.log(data);
             if (data.length != undefined && data.length > 0) {

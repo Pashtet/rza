@@ -28,13 +28,10 @@
 	klass_tn = '".$obj->klass_tn."', 
 	zn_tn = '".$obj->zn_tn."', 
 	period_rza = '".$obj->period_rza."', 
-	period_pri = '".$obj->period_pri."', 
-	tip_prib1 = '".$obj->tip_prib1."', 
-	tip_prib2 = '".$obj->tip_prib2."', 
-	tip_prib3 = '".$obj->tip_prib3."', 
-	dat_pp_pri = '".$obj->dat_pp_pri."', 
 	vid_pp_rza = '".$obj->vid_pp_rza."', 
+	vid_sp_rza = '".$obj->vid_sp_rza."', 
 	dat_pp_rza = '".$obj->dat_pp_rza."', 
+	dat_sp_rza = '".$obj->dat_sp_rza."',
 	dat_po_rza = '".$obj->dat_po_rza."', 
 	ispoln = '".$obj->ispoln."' 
 	WHERE stroka = '".$obj->stroka."';";

@@ -1,14 +1,12 @@
-  var json_data, PS, MF;
-//  window.onload = function () {
+  var json_data, PS, unit, isChangeDatePP;
 	PS = localStorage.getItem('PS');
-	MF = localStorage.getItem('MF');
-	console.log(PS+" "+MF);
-//  }
+	unit = localStorage.getItem('unit');
+	console.log(PS+" "+unit);
   
   $.ajax({
     url: '../card.php',
     type: 'POST',
-    data: {'PS':PS,'MF':MF},
+    data: {'PS':PS,'unit':unit},
     dataType: 'json'
 }).done(function(data){
     console.log(data);
@@ -27,8 +25,9 @@
     console.log(dataError);
 });
 
-$(function()	{
+$(function(){
 	$('td').dblclick(function(e)	{//ловим элемент, по которому кликнули два раза
+	
 		var t = e.target || e.srcElement;
 		if(!t.hasAttribute("id")) {return false;}//если у элемента таблицы нет поля id - значит это просто надпись
 
@@ -39,10 +38,47 @@ $(function()	{
 		$('#edit').focus();//получается, что $(this) это уже полностью новый элемент
 		$('#edit').blur(function()	{//после того, как снимается фокус, заменяем поле таблицы и отправляем измененные данные
 			var val = $(this).val();
+			
+			//если это поле даты - надо изменить дату последнего опробования, дату следующей проверки
+			if (attrib=='dat_pp_rza'){
+				//console.log("Дата! " + val);
+				var vpRza = $('#vid_pp_rza').html();
+				var year = +val.substr(0,4);
+				var interval = +$('#period_rza').html();
+				var new_dat_sp_rza;
+				console.log(vpRza);
+				switch (vpRza){
+					case 'Н':
+					year = year + 1;
+					json_data['vid_sp_rza']='1K';
+					break;
+					case '1К':
+					year = (year + interval/2) - 1;
+					json_data['vid_sp_rza']='К';
+					break;
+					case 'В':
+					year = year + interval/2;
+					json_data['vid_sp_rza']='К';
+					break;
+					case 'К':
+					year = year + interval/2;
+					json_data['vid_sp_rza']='В';
+					break;
+					default:
+					year = year + interval/2;
+					alert('Не указан вид проверки!');
+				}
+				new_dat_sp_rza = year + "" + val.substr(4);
+				json_data['dat_sp_rza']=new_dat_sp_rza;
+				$("#dat_po_rza").empty().html(val);
+				json_data['dat_po_rza']=val;
+			}
+			
 			$(this).parent().empty().html(val);
 			json_data[attrib]=val;// меняем поле в данных пересылаемых
 			var json_data_update = JSON.stringify(json_data);
 			//console.log(JSON.stringify(json_data));
+			
 			$.ajax({//отправляем запрос на обновление таблицы
 				url: '../updateTable.php',
 				type: 'POST',
@@ -57,6 +93,7 @@ $(function()	{
 				console.log('fail');
 				console.log(data);
 			});
+			
 		});
 	});
 });
