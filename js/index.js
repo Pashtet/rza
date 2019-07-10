@@ -1,8 +1,8 @@
+include("/js/cookie.js");
+
 var isPS = isunit = isUnit = isDevice = false;
 var listFiles = "";
-var search = "",
-	PS = "",
-	unit = "";
+var search, PS,unit;
 
 window.onload = function () {
 ///////запрос на список подстанций
@@ -54,7 +54,6 @@ window.onload = function () {
             
             else if (this.id=="unit"){
 				unit = this.value;
-                goToCard();
             }
 
             // Определение, существует ли option с текущим значением input.
@@ -76,69 +75,37 @@ window.onload = function () {
         });
     }
 }
-
+function printPSList (){
+	
+	if(PS!=undefined){
+		//localStorage.setItem('PS', PS);
+		setCookie('PS', PS);
+		window.open('rza/printPSList.php');
+	}else{ alert("Выберите подстанцию!");}
+}
 function clearFields(){
     
     console.log("ClearFields")
+	//localStorage.removeItem('PS', PS);
+	//localStorage.removeItem('unit', unit);
+	deleteCookie('PS'); deleteCookie('unit');
     document.getElementById("PS").value = "";
     document.getElementById("unit").value = "";
     document.getElementById("unitList").innerHTML = " ";
     
 }
 function goToCard(){
-	
-	localStorage.setItem('PS', PS);
-	localStorage.setItem('unit', unit);
-	window.open('rza/card.html');
+	if(PS!=undefined&&unit!=undefined){
+		//localStorage.setItem('PS', PS);
+		//localStorage.setItem('unit', unit);
+		setCookie('PS', PS);
+		setCookie('unit', unit);
+		window.open('rza/card.html');
+	}else{ alert("Выберите подстанцию и присоединение!");}
 }
 
-/* function sendSearchRequest() {
-
-    var searchTextForPS = document.getElementById("PS"),//$("#PS"),
-    searchTextForunit = document.getElementById("unit"),
-    searchDate = document.getElementById("searchDate");//$("#searchDate");
-    listFiles="";
-
-    if (searchTextForPS.value.length > 0) {
-        $.post("GetSearchResponse", {'searchTextForPS': searchTextForPS.value, 'searchTextForunit':searchTextForunit.value, 'searchDate': searchDate.value}, function (data) {
-            data = JSON.parse(data);
-            console.log(data);
-            if (data.length != undefined && data.length > 0) {
-                var divTable = document.getElementById("searchResult"),
-                        table = document.createElement("table");
-                divTable.innerHTML = "";
-                table.setAttribute("border", "1");
-                table.id = "tableForSearchResponse";
-                var row, cell;
-                for (var i = 0; i < data.length; i++) {
-                    row = table.insertRow(i);
-                    for (var j = 0; j < data[i].length - 1; j++) {
-                        cell = row.insertCell(j);
-                        cell.innerHTML = data[i][j];
-                    }
-                    cell = row.insertCell(data[i].length - 1);
-                    var link = document.createElement("a");
-                    var linkString = data[i][data[i].length - 1].toString();
-                    linkString = linkString.substring(3);
-                    //linkFiles
-                    link.href = linkString;
-                    link.innerHTML = "Скачать";
-                    cell.appendChild(link);
-                }
-                var link = document.createElement("a");
-                link.href="\Temp\\osc.zip";
-                link.innerHTML="Скачать все"
-                divTable.appendChild(table);
-                divTable.appendChild(link);
-            } else {
-                document.getElementById("searchResult").innerHTML = "<p> Данные не найдены!</p>";
-            }
-        });
-    } else {
-        document.getElementById("searchResult").innerHTML = "";
-        alert("Введите данные для поиска!");
-    }
-
-} */
-
-
+function include(url) {
+	var script = document.createElement('script');
+	script.src = url;
+	document.getElementsByTagName('head')[0].appendChild(script);
+}

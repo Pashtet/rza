@@ -18,13 +18,14 @@
 							<datalist id="PSList"></datalist>
 						</div>
 						<div class="search_item">
-							<label for="unit">Производитель</label>
+							<label for="unit">Присоединение</label>
 							<input name="unit" id="unit" list="unitList">
 							<datalist id="unitList"></datalist>
 						</div>
 						<div id = "searchButton" class="search_button">
-							<input  class="go_to_card" type="button" onclick="goToCard()" id="goToCard" name="goToCard"  value="Поиск" />
-							<input  class="button_clear" type="button" onclick="clearFields()" value="Очистить"/>
+							<input  class="button" type="button" onclick="goToCard()" id="goToCard"  value="Открыть карточку" />
+							<input  class="button" type="button" onclick="printPSList()" id="printPSList" value="Просмотр плана ПС" />
+							<input  class="button" type="button" onclick="clearFields()" value="Сброс"/>
 						</div>
 					</aside>                  
 				</div>
