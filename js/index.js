@@ -2,7 +2,7 @@ include("/js/cookie.js");
 
 var isPS = isunit = isUnit = isDevice = false;
 var listFiles = "";
-var search, PS,unit;
+var search, PS,unit,ispoln;
 
 window.onload = function () {
 ///////запрос на список подстанций
@@ -13,6 +13,14 @@ window.onload = function () {
             code += "<option>" + data[i] + "</option>";
         }
         $("#PSList").html(code);
+    });
+	$.get("../selectIspoln.php", function (data) {
+		console.log("Запрос исполнителей");
+        var code = '';
+        for (i = 0; i < data.length; i++) {
+            code += "<option>" + data[i] + "</option>";
+        }
+        $("#ispolnList").html(code);
     });
 	
 /////////////функция ловит изменения полей input-ов с привязанными list
@@ -55,6 +63,9 @@ window.onload = function () {
             else if (this.id=="unit"){
 				unit = this.value;
             }
+			else if (this.id=="ispoln"){
+				ispoln = this.value;
+            }
 
             // Определение, существует ли option с текущим значением input.
             for (var j = 0; j < datalist.options.length; j++) {
@@ -83,15 +94,23 @@ function printPSList (){
 		window.open('rza/printPSList.php');
 	}else{ alert("Выберите подстанцию!");}
 }
+function printPSListForIspoln (){
+	if(ispoln!=undefined){
+		setCookie('ispoln', ispoln);
+		window.open('rza/printPSListForIspoln.php');
+	}else{ alert("Выберите исполнителя!");}
+	
+}
 
 function clearFields(){
     console.log("ClearFields")
 	//localStorage.removeItem('PS', PS);
 	//localStorage.removeItem('unit', unit);
-	deleteCookie('PS'); deleteCookie('unit');
+	deleteCookie('PS'); deleteCookie('unit');deleteCookie('ispoln');
     document.getElementById("PS").value = "";
     document.getElementById("unit").value = "";
     document.getElementById("unitList").innerHTML = " ";
+	document.getElementById("ispoln").value = "";
     
 }
 

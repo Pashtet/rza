@@ -1,13 +1,23 @@
 <?php
 	header('Content-Type: text/html; charset=utf-8');
-	$PS = $_COOKIE["PS"];
+	$ispoln = $_COOKIE["ispoln"];
 	$this_year = date('Y');
 	$year_sp;
+	$psList;
 	$mysqli = new mysqli("localhost", "rza", "654321", "csv_db");
 	if ($mysqli->connect_errno) {
 		echo "Не удалось подключиться к MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 	}
-	echo "<h2 align='center'> График проверок УРЗА ПС " .  $PS . " на " . $this_year . " год<p></p>";
+	echo "<h2 align='center'> График проверок УРЗА для " .  $ispoln . " на " . $this_year . " год<p></p>";
+	
+	$mysqli->set_charset('utf8');
+	$res = $mysqli->query("SELECT naim_ps FROM ispps WHERE ispoln = '".$ispoln."' ORDER BY naim_ps ASC");
+	while ($row = $res->fetch_assoc()) {
+		$psList[]=$row['naim_ps'];
+	}
+	foreach ($psList as $PS){
+	
+	echo "<h3 align='center'> График проверок УРЗА ПС " .  $PS . " на " . $this_year . " год</h3><p></p>";
 	$mysqli->set_charset('utf8');
 	$res = $mysqli->query("SELECT naicorr, vid_pp_rza, dat_pp_rza, dat_sp_rza, vid_sp_rza FROM polnaya WHERE naim_ps = '".$PS."'");
 	echo "<table align='center' width='90%' border='1'>
@@ -44,6 +54,7 @@
 		}
 		echo "</tr>";
 	}
-	echo "</table>";
-	
+	echo "</table>"; 
+	echo '<P style="page-break-after:always">';
+	}
 ?>

@@ -9,7 +9,6 @@
 	
 	<body>
 		<div class="wrapper">
-			<section class="content-wrapper">
 				<div class="container">
 					<aside class="sidebar">
 						<div class="search_item">
@@ -25,11 +24,18 @@
 						<div id = "searchButton" class="search_button">
 							<input  class="button" type="button" onclick="goToCard()" id="goToCard"  value="Открыть карточку" />
 							<input  class="button" type="button" onclick="printPSList()" id="printPSList" value="Просмотр плана ПС" />
+						</div>
+						<div class="search_item">
+							<label for="ispoln">Исполнитель</label>
+							<input name="ispoln" id="ispoln" list="ispolnList">
+							<datalist id="ispolnList"></datalist>
+						</div>
+						<div id = "searchButton" class="search_button">
+							<input  class="button" type="button" onclick="printPSListForIspoln()" id="printPSListForIspoln" value="Просмотр плана ПС для исполнителя" />
 							<input  class="button" type="button" onclick="clearFields()" value="Сброс"/>
 						</div>
 					</aside>                  
 				</div>
-			</section>
 		</div>
 	</body>
 </html>
