@@ -21,7 +21,7 @@ window.onload = function () {
 			$('td').each(function(){
 				if(this.hasAttribute("id")){//если есть атрибут в таблице
 					var temp = $(this).attr("id");//берем данный элемент
-					if(temp == 'dat_pp_rza' || temp == 'dat_po_rza'){
+					if(temp == 'dat_pp_rza' || temp == 'dat_po_rza'){//если дата меняем формат с YYYY-MM-DD на DD.MM.YYYY
 						var tempDate = data[temp];
 						tempDate = tempDate.substr(8,2) + '.' + tempDate.substr(5,2) + '.' + tempDate.substr(0,4);
 						$('#' + temp).html(tempDate);
@@ -80,15 +80,15 @@ window.onload = function () {
 						year = year + interval/2;
 						alert('Не указан вид проверки!');
 					}
-					new_dat_sp_rza = year + '-' + val.substr(3,2) + '-' + val.substr(0,2);
+					new_dat_sp_rza = year + '-' + val.substr(3,2) + '-' + val.substr(0,2);//учитываем изменение формата меняем формат с DD.MM.YYYY на YYYY-MM-DD
 					json_data['dat_sp_rza']=new_dat_sp_rza;
 					$("#dat_po_rza").empty().html(val);
 					json_data['dat_po_rza']=val.substr(6,4) + '-' + val.substr(3,2) + '-' +val.substr(0,2);
-					json_data[attrib]=val.substr(6,4) + '-' + val.substr(3,2) + '-' +val.substr(0,2);
+					json_data[attrib]=val.substr(6,4) + '-' + val.substr(3,2) + '-' +val.substr(0,2);// с учетом формата
 				}else if (attrib = 'dat_po_rza'){
-					json_data[attrib]=val.substr(6,4) + '-' + val.substr(3,2) + '-' +val.substr(0,2);
+					json_data[attrib]=val.substr(6,4) + '-' + val.substr(3,2) + '-' +val.substr(0,2);// с учетом формата
 				}else{
-					json_data[attrib]=val;// меняем поле в данных пересылаемых
+					json_data[attrib]=val;// без учета формата
 				}
 				
 				$(this).parent().empty().html(val);
