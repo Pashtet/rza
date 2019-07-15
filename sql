@@ -34,3 +34,6 @@ UPDATE polnaya SET dat_sp_rza=dat_pp_rza + interval
                         WHEN 'К' THEN (period_rza/2)
                         WHEN 'В' THEN (period_rza/2)
                         ELSE 0 END) year ;
+						
+SELECT * FROM `polnaya` WHERE naim_ps='ЮЖНАЯ' AND naicorr='ТH-110 кВ ВЛ-110 ЮГ-1';
+ WHERE naim_ps='ЧАРОМСКОЕ'

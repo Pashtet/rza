@@ -8,7 +8,16 @@ window.onload = function () {
 	PS = getCookie('PS');
 	unit = getCookie('unit');
 	console.log(PS+" "+unit);
-
+	
+	$.get("../selectIspoln.php", function (data) {
+		console.log("Запрос исполнителей");
+        var code = '';
+        for (i = 0; i < data.length; i++) {
+            code += "<option>" + data[i] + "</option>";
+        }
+        $("#ispolnList").html(code);
+    });
+	
 	$.ajax({
 		url: '../card.php',
 		type: 'POST',
@@ -45,12 +54,29 @@ window.onload = function () {
 
 			var attrib = $(this).attr("id");//получаем название тега
 			var val = $(this).html();//текст, который был в поле
+			if (attrib == 'ispoln'){
+				var code = '<input id="edit" list="ispolnList"/> <datalist id="ispolnList"></datalist>';
+				$(this).empty().html(code);
+				console.log(this);
+				$.get("../selectIspoln.php", function (data) {
+					//console.log("Запрос исполнителей");
+					//console.log(data);
+					var code1;
+					for (i = 0; i < data.length; i++) {
+						code1 += "<option>" + data[i] + "</option>";
+					}
+					$("#ispolnList").html(code1);
+				});
+			}else{
 			var code = '<input type="text" id="edit" value="'+val+'" />';//создаем новое поле для редактирования
 			$(this).empty().html(code);//очищаем и заменяем поле таблицы на новое
+			}
 			$('#edit').focus();//получается, что $(this) это уже полностью новый элемент
 			$('#edit').blur(function()	{//после того, как снимается фокус, заменяем поле таблицы и отправляем измененные данные
 				var val = $(this).val();
-				
+				console.log('blur');
+				console.log(val);
+				console.log(attrib);
 				//если это поле даты - надо изменить дату последнего опробования, дату следующей проверки
 				if (attrib=='dat_pp_rza'){
 					//console.log("Дата! " + val);
@@ -85,12 +111,14 @@ window.onload = function () {
 					$("#dat_po_rza").empty().html(val);
 					json_data['dat_po_rza']=val.substr(6,4) + '-' + val.substr(3,2) + '-' +val.substr(0,2);
 					json_data[attrib]=val.substr(6,4) + '-' + val.substr(3,2) + '-' +val.substr(0,2);// с учетом формата
-				}else if (attrib = 'dat_po_rza'){
+				}else if (attrib == 'dat_po_rza'){
 					json_data[attrib]=val.substr(6,4) + '-' + val.substr(3,2) + '-' +val.substr(0,2);// с учетом формата
 				}else{
+					console.log(attrib);
+					console.log(val);
 					json_data[attrib]=val;// без учета формата
 				}
-				
+				console.log(this);
 				$(this).parent().empty().html(val);
 				
 				var json_data_update = JSON.stringify(json_data);
