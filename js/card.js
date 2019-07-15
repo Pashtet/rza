@@ -21,7 +21,13 @@ window.onload = function () {
 			$('td').each(function(){
 				if(this.hasAttribute("id")){//если есть атрибут в таблице
 					var temp = $(this).attr("id");//берем данный элемент
-					$('#' + temp).html(data[temp]);//изменяем его данные
+					if(temp == 'dat_pp_rza' || temp == 'dat_po_rza'){
+						var tempDate = data[temp];
+						tempDate = tempDate.substr(8,2) + '.' + tempDate.substr(5,2) + '.' + tempDate.substr(0,4);
+						$('#' + temp).html(tempDate);
+					}else{
+						$('#' + temp).html(data[temp]);//изменяем его данные
+					}
 				};
 			});
 		});
@@ -49,16 +55,16 @@ window.onload = function () {
 				if (attrib=='dat_pp_rza'){
 					//console.log("Дата! " + val);
 					var vpRza = $('#vid_pp_rza').html();
-					var year = +val.substr(0,4);
+					var year = +val.substr(6,4);
 					var interval = +$('#period_rza').html();
 					var new_dat_sp_rza;
 					console.log(vpRza);
 					switch (vpRza){
 						case 'Н':
 						year = year + 1;
-						json_data['vid_sp_rza']='1K';
+						json_data['vid_sp_rza']='1';
 						break;
-						case '1К':
+						case '1':
 						year = (year + interval/2) - 1;
 						json_data['vid_sp_rza']='К';
 						break;
@@ -74,14 +80,19 @@ window.onload = function () {
 						year = year + interval/2;
 						alert('Не указан вид проверки!');
 					}
-					new_dat_sp_rza = year + "" + val.substr(4);
+					new_dat_sp_rza = year + '-' + val.substr(3,2) + '-' + val.substr(0,2);
 					json_data['dat_sp_rza']=new_dat_sp_rza;
 					$("#dat_po_rza").empty().html(val);
-					json_data['dat_po_rza']=val;
+					json_data['dat_po_rza']=val.substr(6,4) + '-' + val.substr(3,2) + '-' +val.substr(0,2);
+					json_data[attrib]=val.substr(6,4) + '-' + val.substr(3,2) + '-' +val.substr(0,2);
+				}else if (attrib = 'dat_po_rza'){
+					json_data[attrib]=val.substr(6,4) + '-' + val.substr(3,2) + '-' +val.substr(0,2);
+				}else{
+					json_data[attrib]=val;// меняем поле в данных пересылаемых
 				}
 				
 				$(this).parent().empty().html(val);
-				json_data[attrib]=val;// меняем поле в данных пересылаемых
+				
 				var json_data_update = JSON.stringify(json_data);
 				//console.log(JSON.stringify(json_data));
 				

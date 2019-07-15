@@ -75,16 +75,16 @@ window.onload = function () {
         });
     }
 }
+
 function printPSList (){
-	
 	if(PS!=undefined){
 		//localStorage.setItem('PS', PS);
 		setCookie('PS', PS);
 		window.open('rza/printPSList.php');
 	}else{ alert("Выберите подстанцию!");}
 }
+
 function clearFields(){
-    
     console.log("ClearFields")
 	//localStorage.removeItem('PS', PS);
 	//localStorage.removeItem('unit', unit);
@@ -94,6 +94,7 @@ function clearFields(){
     document.getElementById("unitList").innerHTML = " ";
     
 }
+
 function goToCard(){
 	if(PS!=undefined&&unit!=undefined){
 		//localStorage.setItem('PS', PS);
